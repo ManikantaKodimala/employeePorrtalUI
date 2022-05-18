@@ -59,4 +59,8 @@ jobs:
             terraform output -json
             export IP_ADDRESS1=$(terraform output -raw abc)
             echo $IP_ADDRESS
-
+  On-EC2:
+    runs-on: self-hosted
+    steps:
+      - name: Running demo file
+        run: touch test.txt
