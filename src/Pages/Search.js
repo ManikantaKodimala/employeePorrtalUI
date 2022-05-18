@@ -8,11 +8,14 @@ const Search = () => {
 
     let userName = e.target.elements.username.value;
     console.log("value --", userName);
+    console.log(process.env.REACT_APP_BACKEND_IP)
+    var domain=process.env.REACT_APP_BACKEND_IP
     if (userName.trim() !== "") {
       axios
         .get(
-          "http://localhost:8080/api/employees/search?query=" +
+          `${process.env.REACT_APP_BACKEND_IP}/api/employees/search?query=` +
             e.target.elements.username.value
+
         )
         .then(function (response) {
           setEmployees(response.data.data);

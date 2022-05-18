@@ -1,0 +1,62 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Terraform Apply
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  terraform_apply:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+
+    - uses: hashicorp/setup-terraform@v2
+    - name: Verify Terraform version
+      run: terraform --version
+
+    - name: Terraform init
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        TF_VAR_public_key: ${{secrets.TF_VAR_PUBLIC_KEY}}
+        TF_VAR_private_key: ${{secrets.TF_VAR_PRIVATE_KEY}}
+      run: |
+            cd terraform
+            terraform init
+
+    - name: Terraform validation
+      run: |
+            cd terraform
+            terraform validate
+
+    - name: Terraform Plan
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        TF_VAR_public_key : ${{secrets.TF_VAR_PUBLIC_KEY}}
+        TF_VAR_private_key : ${{secrets.TF_VAR_PRIVATE_KEY}}
+      run: |
+            cd terraform
+            terraform plan
+
+    - name: Terraform Apply
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        TF_VAR_public_key: ${{secrets.TF_VAR_PUBLIC_KEY}}
+        TF_VAR_private_key: ${{secrets.TF_VAR_PRIVATE_KEY}}
+      run: |
+            cd terraform
+            terraform apply -auto-approve -input=false
+            terraform output -json
+            export IP_ADDRESS1=$(terraform output -raw abc)
+            echo $IP_ADDRESS
+

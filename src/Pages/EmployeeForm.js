@@ -11,7 +11,7 @@ export const EmployeeForm = (props) => {
     if (props.data === null) {
       config = {
         method: "post",
-        url: "http://localhost:8080/api/employees",
+        url: `${process.env.REACT_APP_BACKEND_IP}/api/employees`,
         headers: {
           "Content-Type": "application/json",
         },
