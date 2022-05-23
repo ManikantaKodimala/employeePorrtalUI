@@ -8,12 +8,6 @@
         name: git
         state: present
         update_cache: yes
-    - name: Cloning to Backend Repository
-      git:
-        repo: 'https://github.com/ManikantaKodimala/EmployeePortal.git'
-        dest: /home/ubuntu/astro
-        clone: yes
-        update: yes
 
     - name: Installing npm
       ansible.builtin.shell:
@@ -35,7 +29,12 @@
         chdir: /home/ubuntu/astro-ui/
         cmd: npm install
 
+    - name: coping received data as args i.e., target
+    - copy:
+        dest: /home/ubuntu/astro-ui/
+        content: "{{ target }}"
+
     - name: Runing frontend
       ansible.builtin.shell:
         chdir: /home/ubuntu/astro-ui/
-        cmd: REACT_APP_BACKEND_IP="{{target}}" pm2 start npm -- start
+        cmd: REACT_APP_BACKEND_IP="{{ target }}" pm2 start npm -- start
