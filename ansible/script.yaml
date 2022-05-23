@@ -38,4 +38,4 @@
     - name: Runing frontend
       ansible.builtin.shell:
         chdir: /home/ubuntu/astro-ui/
-        cmd: pm2 start npm -- start
+        cmd: REACT_APP_BACKEND_IP="{{target}}" pm2 start npm -- start
