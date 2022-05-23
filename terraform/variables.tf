@@ -6,7 +6,7 @@ variable "name" {
 variable "bucket_name" {
     description = "name of bucket for backend"
     type= string
-    default="astro-terraform-backend-storage"
+    default="astro-backend-storage-terraform"
 }
 variable "public_key"{}
 

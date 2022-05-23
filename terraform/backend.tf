@@ -76,6 +76,14 @@ resource "aws_key_pair" "devloper_key" {
   public_key = var.public_key
 }
 
+#resource "aws_s3_bucket" "terraform_state" {
+#  bucket = var.bucket_name
+#
+#  versioning {
+#    enabled = true
+#  }
+#}
+
 resource "aws_db_instance" "employee" {
   identifier             = "astro-db"
   instance_class         = "db.t3.micro"
@@ -91,13 +99,26 @@ resource "aws_db_instance" "employee" {
 
 terraform {
   backend "s3" {
-    bucket = "astro-terraform-backend-storage"
+    bucket = "astro-backend-storage-terraform"
     key    = "terraform.tfstate"
     region = "ap-south-1"
     encrypt                 = true
   }
 }
 
+resource "aws_eip" "example" {
+  vpc = true
+}
+
+resource "aws_eip_association" "eip_assoc" {
+  instance_id   = aws_instance.astro_backend.id
+  allocation_id = aws_eip.example.id
+}
 output "target" {
   value = aws_instance.astro_backend.public_ip
+}
+
+output "instance_endpoint" {
+  value       = join("", aws_db_instance.employee.*.endpoint)
+  description = "DNS Endpoint of the instance"
 }
