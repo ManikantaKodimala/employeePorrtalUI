@@ -1,0 +1,41 @@
+- hosts: all
+  become: yes
+  become_user: root
+  become_method: sudo
+  tasks:
+    - name: Install git
+      apt:
+        name: git
+        state: present
+        update_cache: yes
+    - name: Cloning to Backend Repository
+      git:
+        repo: 'https://github.com/ManikantaKodimala/EmployeePortal.git'
+        dest: /home/ubuntu/astro
+        clone: yes
+        update: yes
+
+    - name: Installing npm
+      ansible.builtin.shell:
+        cmd: sudo apt install npm -y
+
+    - name: Installing pm2
+      ansible.builtin.shell:
+        cmd: sudo npm install pm2 -g
+
+    - name: Cloning to Fronted  Repository
+      git:
+        repo: 'https://github.com/ManikantaKodimala/employeePorrtalUI'
+        dest: /home/ubuntu/astro-ui
+        clone: yes
+        update: yes
+
+    - name: Building Front end
+      ansible.builtin.shell:
+        chdir: /home/ubuntu/astro-ui/
+        cmd: npm install
+
+    - name: Runing frontend
+      ansible.builtin.shell:
+        chdir: /home/ubuntu/astro-ui/
+        cmd: pm2 start npm -- start

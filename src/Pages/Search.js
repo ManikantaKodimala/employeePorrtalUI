@@ -13,7 +13,7 @@ const Search = () => {
     if (userName.trim() !== "") {
       axios
         .get(
-          `${process.env.REACT_APP_BACKEND_IP}/api/employees/search?query=` +
+          `http://${process.env.REACT_APP_BACKEND_IP}:8080/api/employees/search?query=` +
             e.target.elements.username.value
 
         )

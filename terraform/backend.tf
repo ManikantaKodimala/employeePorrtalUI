@@ -1,18 +1,18 @@
 resource "aws_instance" "astro_backend" {
-    ami = "ami-05ba3a39a75be1ec4"
-    instance_type = "t2.micro"
-    tags = {
-            Name = var.name
-    }
-    key_name         = "my-ec2-ssh"
-    vpc_security_group_ids = [aws_security_group.main.id]
-    connection {
-      type        = "ssh"
-      host        = self.public_ip
-      user        = "ubuntu"
-      private_key = var.private_key
-      timeout     = "4m"
-   }
+  ami = "ami-05ba3a39a75be1ec4"
+  instance_type = "t2.medium"
+  tags = {
+    Name = var.name
+  }
+  key_name         = "my-ec2-ssh"
+  vpc_security_group_ids = [aws_security_group.main.id]
+  connection {
+    type        = "ssh"
+    host        = self.public_ip
+    user        = "ubuntu"
+    private_key = var.private_key
+    timeout     = "4m"
+  }
 }
 
 resource "aws_security_group" "main" {
@@ -99,5 +99,5 @@ terraform {
 }
 
 output "target" {
-    value = aws_instance.astro_backend.public_ip
+  value = aws_instance.astro_backend.public_ip
 }

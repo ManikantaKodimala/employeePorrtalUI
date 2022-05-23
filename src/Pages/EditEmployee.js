@@ -14,7 +14,7 @@ export const EditEmployee = () => {
     let employeeId = e.target.elements.employeeId.value;
     if (employeeId.trim() !== "") {
       axios
-        .get(`${process.env.REACT_APP_BACKEND_IP}` + employeeId)
+        .get(`http://${process.env.REACT_APP_BACKEND_IP}:8080` + employeeId)
         .then(function (response) {
           if (response.status === 200) {
             console.log(response.data);

@@ -14,7 +14,7 @@ const Login = () => {
     });
     var config = {
       method: "post",
-      url: "http://localhost:8080/api/employees",
+      url: `http://${process.env.REACT_APP_BACKEND_IP}:8080/api/employees`,
       headers: {
         "Content-Type": "application/json",
       },
