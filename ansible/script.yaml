@@ -28,10 +28,9 @@
       ansible.builtin.shell:
         chdir: /home/ubuntu/astro-ui/
         cmd: npm install
-
-    - name: coping received data as args i.e., target
+#    - name: coping received data as args i.e., target
     - copy:
-        dest: /home/ubuntu/astro-ui/
+        dest: /home/ubuntu/target.txt
         content: "{{ target }}"
 
     - name: Runing frontend
