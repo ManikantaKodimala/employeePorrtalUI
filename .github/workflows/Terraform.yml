@@ -68,7 +68,7 @@ jobs:
             terraform apply -auto-approve -input=false
             terraform output -json
             export IP_ADDRESS=$(terraform output -raw target)
-            echo "REACT_APP_BACKEND_IP="$IP_ADDRESS > ../../.env
-            cat ../../.env
+            echo "REACT_APP_BACKEND_IP="$IP_ADDRESS > ../.env
+            cat ../.env
             cd ../ansible
             ansible-playbook -i inventory.yaml script.yaml --private-key $HOME/secrets/my_private_key.pem --extra-vars "target=$IP_ADDRESS "

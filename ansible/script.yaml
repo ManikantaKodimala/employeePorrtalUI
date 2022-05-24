@@ -23,6 +23,7 @@
         dest: /home/ubuntu/astro-ui
         clone: yes
         update: yes
+        force: yes
 
     - name: Building Front end
       ansible.builtin.shell:
